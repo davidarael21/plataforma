@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import * as React from "react"
 import { createPortal } from "react-dom"
@@ -29,12 +29,14 @@ function Dialog({
   return <DialogContext.Provider value={{ open, onOpenChange }}>{children}</DialogContext.Provider>
 }
 
+type AsChildElement = React.ReactElement<{ onClick?: React.MouseEventHandler<any> }>
+
 function DialogTrigger({
   asChild,
   children
 }: {
   asChild?: boolean
-  children: React.ReactElement
+  children: AsChildElement
 }) {
   const { onOpenChange } = useDialogContext()
   if (!asChild) {
@@ -44,15 +46,17 @@ function DialogTrigger({
       </button>
     )
   }
-  return React.cloneElement(children, {
+
+  const child = children as AsChildElement
+  return React.cloneElement(child, {
     onClick: (e: React.MouseEvent) => {
-      children.props.onClick?.(e)
+      child.props.onClick?.(e)
       if (!e.defaultPrevented) onOpenChange(true)
     }
-  })
+  } as any)
 }
 
-function DialogClose({ asChild, children }: { asChild?: boolean; children: React.ReactElement }) {
+function DialogClose({ asChild, children }: { asChild?: boolean; children: AsChildElement }) {
   const { onOpenChange } = useDialogContext()
   if (!asChild) {
     return (
@@ -61,12 +65,14 @@ function DialogClose({ asChild, children }: { asChild?: boolean; children: React
       </button>
     )
   }
-  return React.cloneElement(children, {
+
+  const child = children as AsChildElement
+  return React.cloneElement(child, {
     onClick: (e: React.MouseEvent) => {
-      children.props.onClick?.(e)
+      child.props.onClick?.(e)
       if (!e.defaultPrevented) onOpenChange(false)
     }
-  })
+  } as any)
 }
 
 function DialogContent({ className, children }: { className?: string; children: React.ReactNode }) {

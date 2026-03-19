@@ -1,5 +1,6 @@
 .next/
 node_modules/
+.npm-cache/
 .env
 .env.local
 .DS_Store
@@ -8,4 +9,3 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 *.tsbuildinfo
-

@@ -2,14 +2,15 @@ import { prisma } from "@/lib/prisma"
 import { jsonError, jsonOk } from "@/lib/http"
 import { requireSession } from "@/lib/server-auth"
 import { updateTaskSchema } from "@/lib/validators"
+import type { NextRequest } from "next/server"
 
 export const runtime = "nodejs"
 
-export async function PATCH(req: Request, ctx: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
   const user = await requireSession(req)
   if (!user) return jsonError("Unauthorized", 401)
 
-  const { id } = ctx.params
+  const { id } = await Promise.resolve(ctx.params)
   const existing = await prisma.task.findUnique({ where: { id } })
   if (!existing) return jsonError("No encontrada", 404)
 
@@ -50,12 +51,12 @@ export async function PATCH(req: Request, ctx: { params: { id: string } }) {
   return jsonOk({ task })
 }
 
-export async function DELETE(req: Request, ctx: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
   const user = await requireSession(req)
   if (!user) return jsonError("Unauthorized", 401)
   if (user.role !== "ADMIN") return jsonError("Forbidden", 403)
 
-  const { id } = ctx.params
+  const { id } = await Promise.resolve(ctx.params)
   await prisma.task.delete({ where: { id } }).catch(() => null)
   return jsonOk({ ok: true })
 }
