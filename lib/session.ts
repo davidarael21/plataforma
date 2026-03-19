@@ -1,4 +1,4 @@
-﻿import { cookies } from "next/headers"
+import { cookies } from "next/headers"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/auth"
 import { prisma } from "@/lib/prisma"
@@ -6,31 +6,30 @@ import { AUTH_COOKIE_NAME, verifyAuthToken } from "@/lib/auth"
 
 export type SessionUser = {
   id: string
-  email: string
+  username: string
   name: string
   role: "ADMIN" | "EMPLOYEE"
 }
 
 export async function getSessionUser(): Promise<SessionUser | null> {
   const nextAuthSession = await getServerSession(authOptions).catch(() => null)
-  const nextAuthUser = nextAuthSession?.user
+  const nextAuthUser = nextAuthSession?.user as any
 
-  if (nextAuthUser?.email) {
-    const sessionUser = nextAuthUser as unknown as { id?: string; role?: SessionUser["role"] }
-    if (sessionUser.id && sessionUser.role && nextAuthUser.name) {
+  if (nextAuthUser?.id) {
+    if (nextAuthUser.username && nextAuthUser.role && nextAuthUser.name) {
       return {
-        id: sessionUser.id,
-        email: nextAuthUser.email,
+        id: nextAuthUser.id,
+        username: nextAuthUser.username,
         name: nextAuthUser.name,
-        role: sessionUser.role
+        role: nextAuthUser.role
       }
     }
 
-    const user = await prisma.user.findUnique({ where: { email: nextAuthUser.email } })
+    const user = await prisma.user.findUnique({ where: { id: nextAuthUser.id } })
     if (!user) return null
     return {
       id: user.id,
-      email: user.email,
+      username: user.username,
       name: user.name,
       role: user.role
     }
@@ -42,7 +41,7 @@ export async function getSessionUser(): Promise<SessionUser | null> {
     const payload = await verifyAuthToken(token)
     return {
       id: payload.sub,
-      email: payload.email,
+      username: payload.username,
       name: payload.name,
       role: payload.role
     }

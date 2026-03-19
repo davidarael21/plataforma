@@ -1,4 +1,4 @@
-﻿import { prisma } from "@/lib/prisma"
+import { prisma } from "@/lib/prisma"
 import { jsonError, jsonOk } from "@/lib/http"
 import { requireSession } from "@/lib/server-auth"
 import { updateTaskSchema } from "@/lib/validators"
@@ -39,9 +39,9 @@ export async function PATCH(req: Request, ctx: { params: { id: string } }) {
       ...(parsed.data.assignedToId ? { assignedToId: parsed.data.assignedToId } : {})
     },
     include: {
-      assignedTo: { select: { id: true, name: true, email: true, role: true } },
+      assignedTo: { select: { id: true, name: true, username: true, role: true } },
       comments: {
-        include: { user: { select: { id: true, name: true, email: true } } },
+        include: { user: { select: { id: true, name: true, username: true } } },
         orderBy: { createdAt: "asc" }
       }
     }

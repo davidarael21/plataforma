@@ -18,9 +18,8 @@ export async function POST(req: Request) {
 
   const comment = await prisma.comment.create({
     data: { taskId: parsed.data.taskId, userId: user.id, content: parsed.data.content },
-    include: { user: { select: { id: true, name: true, email: true } } }
+    include: { user: { select: { id: true, name: true, username: true } } }
   })
 
   return jsonOk({ comment }, { status: 201 })
 }
-

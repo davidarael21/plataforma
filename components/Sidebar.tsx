@@ -12,8 +12,7 @@ export default function Sidebar({ user }: { user: SessionUser }) {
           Dashboard
         </a>
       </nav>
-      <div className="mt-auto p-4 border-t border-border text-xs text-fg-muted">{user.email}</div>
+      <div className="mt-auto p-4 border-t border-border text-xs text-fg-muted">{user.username}</div>
     </aside>
   )
 }
-

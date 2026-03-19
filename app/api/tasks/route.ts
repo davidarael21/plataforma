@@ -19,9 +19,9 @@ export async function GET(req: Request) {
       ...(status ? { status: status as any } : {})
     },
     include: {
-      assignedTo: { select: { id: true, name: true, email: true, role: true } },
+      assignedTo: { select: { id: true, name: true, username: true, role: true } },
       comments: {
-        include: { user: { select: { id: true, name: true, email: true } } },
+        include: { user: { select: { id: true, name: true, username: true } } },
         orderBy: { createdAt: "asc" }
       }
     },
@@ -47,9 +47,9 @@ export async function POST(req: Request) {
       assignedToId: parsed.data.assignedToId
     },
     include: {
-      assignedTo: { select: { id: true, name: true, email: true, role: true } },
+      assignedTo: { select: { id: true, name: true, username: true, role: true } },
       comments: {
-        include: { user: { select: { id: true, name: true, email: true } } },
+        include: { user: { select: { id: true, name: true, username: true } } },
         orderBy: { createdAt: "asc" }
       }
     }
@@ -57,4 +57,3 @@ export async function POST(req: Request) {
 
   return jsonOk({ task }, { status: 201 })
 }
-

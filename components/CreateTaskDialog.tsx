@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useEffect, useMemo, useState } from "react"
 import type { UserRole } from "@prisma/client"
@@ -8,7 +8,7 @@ import { Input } from "@/components/shadcn/ui/input"
 import { Label } from "@/components/shadcn/ui/label"
 import { Textarea } from "@/components/shadcn/ui/textarea"
 
-type UserLite = { id: string; name: string; email: string; role: UserRole }
+type UserLite = { id: string; name: string; username: string; role: UserRole }
 
 type CurrentUser = { id: string; role: "ADMIN" | "EMPLOYEE" }
 

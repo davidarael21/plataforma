@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useEffect, useMemo, useState } from "react"
 import type { TaskStatus, UserRole } from "@prisma/client"
@@ -7,13 +7,13 @@ import Input from "@/components/ui/Input"
 import Select from "@/components/ui/Select"
 import Button from "@/components/ui/Button"
 
-type UserLite = { id: string; name: string; email: string; role: UserRole }
+type UserLite = { id: string; name: string; username: string; role: UserRole }
 
 type CommentWithUser = {
   id: string
   content: string
   createdAt: string | Date
-  user: { id: string; name: string; email: string }
+  user: { id: string; name: string; username: string }
 }
 
 type TaskWithRelations = {

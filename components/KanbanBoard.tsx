@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useEffect, useMemo, useState } from "react"
 import toast from "react-hot-toast"
@@ -9,13 +9,13 @@ import TaskCard from "@/components/TaskCard"
 import TaskModal from "@/components/TaskModal"
 import CreateTaskDialog from "@/components/CreateTaskDialog"
 
-type UserLite = { id: string; name: string; email: string; role: UserRole }
+type UserLite = { id: string; name: string; username: string; role: UserRole }
 
 type CommentWithUser = {
   id: string
   content: string
   createdAt: string | Date
-  user: { id: string; name: string; email: string }
+  user: { id: string; name: string; username: string }
 }
 
 type TaskWithRelations = {
@@ -29,7 +29,7 @@ type TaskWithRelations = {
   comments: CommentWithUser[]
 }
 
-type CurrentUser = { id: string; name: string; email: string; role: "ADMIN" | "EMPLOYEE" }
+type CurrentUser = { id: string; name: string; username: string; role: "ADMIN" | "EMPLOYEE" }
 
 const columns: Array<{ key: TaskStatus; title: string }> = [
   { key: "PENDING", title: "Pending" },

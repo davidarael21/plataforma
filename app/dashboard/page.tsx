@@ -1,4 +1,4 @@
-﻿import { prisma } from "@/lib/prisma"
+import { prisma } from "@/lib/prisma"
 import { getSessionUser } from "@/lib/session"
 import KanbanBoard from "@/components/KanbanBoard"
 
@@ -7,7 +7,7 @@ export default async function DashboardPage() {
   if (!user) return null
 
   const users = await prisma.user.findMany({
-    select: { id: true, name: true, email: true, role: true },
+    select: { id: true, name: true, username: true, role: true },
     orderBy: { name: "asc" }
   })
 

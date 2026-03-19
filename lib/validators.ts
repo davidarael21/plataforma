@@ -1,7 +1,7 @@
 import { z } from "zod"
 
 export const loginSchema = z.object({
-  email: z.string().email(),
+  username: z.string().trim().min(1).max(64),
   password: z.string().min(1)
 })
 
@@ -22,4 +22,3 @@ export const createCommentSchema = z.object({
   taskId: z.string().min(1),
   content: z.string().min(1).max(2000)
 })
-
